@@ -8,7 +8,7 @@
 #Copyright © 2010-17 Ariel Rocholl, www.rf-explorer.com
 #
 # Contributed by:
-# 
+#
 #       Julian Calderon
 #       John Isham
 #
@@ -37,7 +37,7 @@ import serial
 
 #---------------------------------------------------------
 
-from RFExplorer import RFE_Common 
+from RFExplorer import RFE_Common
 from RFExplorer.ReceiveSerialThread import ReceiveSerialThread
 from RFExplorer.RFESweepData import RFESweepData
 from RFExplorer.RFESweepDataCollection import RFESweepDataCollection
@@ -69,7 +69,7 @@ def Convert_Watt_2_dBm(Watt):
 
 def Convert_dBm_2_dBuV(dBm):
     """Convert dBm to dBuV
-    
+
     Parameters:
         dBm -- Value in dBm
     Returns:
@@ -79,7 +79,7 @@ def Convert_dBm_2_dBuV(dBm):
 
 def Convert_dBuV_2_dBm(dBuV):
     """Convert dBuV to dBm
-    
+
     Parameters:
         dBuV -- Value in dBuV
     Returns:
@@ -89,7 +89,7 @@ def Convert_dBuV_2_dBm(dBuV):
 
 def Convert_dBm_2_mW(dBm):
     """Convert dBm to mW
-    
+
     Parameters:
         dBm -- Value in dBm
     Returns:
@@ -99,7 +99,7 @@ def Convert_dBm_2_mW(dBm):
 
 def Convert_dBm_2_Watt(dBm):
     """Convert dBm to Watt
-    
+
     Parameters:
         dBm -- Value in dBm
     Returns:
@@ -108,7 +108,7 @@ def Convert_dBm_2_Watt(dBm):
     return (Convert_dBm_2_mW(dBm) / 1000.0)
 
 def DecorateSerialNumberRAWString(sRAWSerialNumber):
-    """This function gives format to the serial number string as xxxx-xxxx-xxxx-xxxx 
+    """This function gives format to the serial number string as xxxx-xxxx-xxxx-xxxx
 
     Parameters:
         sRAWSerialNumber -- Original serial number format
@@ -160,14 +160,14 @@ def GetModelEnumFromText(sText):
 
 #---------------------------------------------------------
 
-class RFECommunicator(object):    
+class RFECommunicator(object):
     """Main API class to support all basic low level operations with RF Explorer
 	"""
     def __init__(self):
         self.m_bAutoCleanConfig = True
         self.m_bUseByteBLOB = False
         self.m_bUseStringBLOB = False
-        self.m_bAutoConfigure = True 
+        self.m_bAutoConfigure = True
         self.m_arrConnectedPorts = []
         self.m_arrValidCP2102Ports = []
         self.m_nVerboseLevel = 1
@@ -176,7 +176,7 @@ class RFECommunicator(object):
         self.m_hQueueLock = threading.Lock()
         self.m_hSerialPortLock = threading.Lock()
         self.m_ReceivedBytesMutex = threading.Lock()
-        self.m_bDisposed = False 
+        self.m_bDisposed = False
         self.m_fStartFrequencyMHZ = 0.0
         self.m_fStepFrequencyMHZ = 0.0
         self.m_fRefFrequencyMHZ = 0.0
@@ -197,12 +197,12 @@ class RFECommunicator(object):
         self.m_bRFGenStopHighPowerSwitch = False
         self.m_bRFGenPowerON = False
         self.m_bPortConnected = False
-        self.m_fMinSpanMHZ = 0.112      
-        self.m_fPeakValueAmp = -120.0   
-        self.m_fMaxSpanMHZ = 100.0      
-        self.m_fMinFreqMHZ = 430.0       
-        self.m_fMaxFreqMHZ = 440.0      
-        self.m_fPeakValueMHZ = 0.0      
+        self.m_fMinSpanMHZ = 0.112
+        self.m_fPeakValueAmp = -120.0
+        self.m_fMaxSpanMHZ = 100.0
+        self.m_fMinFreqMHZ = 430.0
+        self.m_fMaxFreqMHZ = 440.0
+        self.m_fPeakValueMHZ = 0.0
         self.m_fAmplitudeTopDBM = -30       #dBm for top graph limit
         self.m_bUseMaxHold = True
         self.m_nRFGenStartPowerLevel = 0
@@ -218,13 +218,13 @@ class RFECommunicator(object):
         self.m_spanAverageSpeedAcumulator = timedelta()
         self.m_fAverageSweepTime = 0.0
         self.m_nAverageSweepSpeedIterator = 0
-        self.m_bAcknowledge = False 
-        self.m_bIntendedAnalyzer = True     
+        self.m_bAcknowledge = False
+        self.m_bIntendedAnalyzer = True
         self.m_eDSP = RFE_Common.eDSP.DSP_AUTO
         self.m_sSerialNumber = ""
-        self.m_sSweepInfoText = ""     
+        self.m_sSweepInfoText = ""
         self.m_eMainBoardModel = RFE_Common.eModel.MODEL_NONE
-        self.m_eExpansionBoardModel = RFE_Common.eModel.MODEL_NONE 
+        self.m_eExpansionBoardModel = RFE_Common.eModel.MODEL_NONE
         self.m_eCalculator = RFE_Common.eCalculator.NORMAL
         self.m_eActiveModel = RFE_Common.eModel.MODEL_NONE
         self.m_bExpansionBoardActive = False
@@ -259,7 +259,7 @@ class RFECommunicator(object):
 
     @property
     def RunReceiveThread(self):
-        """True if thread is running, otherwise False 
+        """True if thread is running, otherwise False
 	    """
         return self.m_bRunReceiveThread
     @RunReceiveThread.setter
@@ -274,7 +274,7 @@ class RFECommunicator(object):
 
     @property
     def IsResetEvent(self):
-        """Reset string is detected. When is check in the get property, is set automatically to false. 
+        """Reset string is detected. When is check in the get property, is set automatically to false.
         We detect the last reset
 	    """
         if(self.m_bIsResetEvent):
@@ -297,7 +297,7 @@ class RFECommunicator(object):
         """Get the currently configured calculator in the device
 	    """
         return self.m_eCalculator
-    
+
     @property
     def UseByteBLOB(self):
         """Get/Set
@@ -322,7 +322,7 @@ class RFECommunicator(object):
 	    """
         return self.m_bPortConnected
     @PortConnected.setter
-    def PortConnected(self, value):       
+    def PortConnected(self, value):
         self.m_bPortConnected = value
 
     @property
@@ -336,11 +336,11 @@ class RFECommunicator(object):
 
     @property
     def UseMaxHold(self):
-        """True if Max Hold is used, otherwise False 
+        """True if Max Hold is used, otherwise False
 		"""
         return self.m_bUseMaxHold
     @UseMaxHold.setter
-    def UseMaxHold(self, value):    
+    def UseMaxHold(self, value):
         if (value != self.m_bUseMaxHold):
             if (value):
                 self.SendCommand_SetMaxHold()
@@ -355,11 +355,11 @@ class RFECommunicator(object):
 		"""
         return self.m_sSweepInfoText
 
-    #Initializer for 433MHz model, will change later based on settings  
+    #Initializer for 433MHz model, will change later based on settings
     @property
     def MinSpanMHZ(self):
         """Min valid span in MHZ for connected model
-		""" 
+		"""
         return self.m_fMinSpanMHZ
     @MinSpanMHZ.setter
     def MinSpanMHZ(self, value):
@@ -400,7 +400,7 @@ class RFECommunicator(object):
     @PeakValueMHZ.setter
     def PeakValueMHZ(self, value):
         self.m_fPeakValueMHZ = value
-    
+
     @property
     def PeakValueAmplitudeDBM(self):
         """Last drawing iteration peak value dBm read
@@ -409,7 +409,7 @@ class RFECommunicator(object):
     @PeakValueAmplitudeDBM.setter
     def PeakValueAmplitudeDBM(self, value):
         self.m_fPeakValueAmp = value
-    
+
     @property
     def AmplitudeTopDBM(self):
         """This is the highest value that should be selected for display, includes Offset dBm
@@ -436,7 +436,7 @@ class RFECommunicator(object):
     @AmplitudeBottomDBM.setter
     def AmplitudeBottomDBM(self, value):
         self.m_fAmplitudeBottomDBM = value
-    
+
     @property
     def AmplitudeBottomNormalizedDBM(self):
         """AmplitudeBottom property includes the offset dBm, the normalized one does not
@@ -449,7 +449,7 @@ class RFECommunicator(object):
     #spectrum analyzer configuration
     @property
     def StartFrequencyMHZ(self):
-        """Frequency in MHZ for the span start position, 
+        """Frequency in MHZ for the span start position,
         used to calculate all other positions together with StepFrequencyMHZ
 		"""
         return self.m_fStartFrequencyMHZ
@@ -471,7 +471,7 @@ class RFECommunicator(object):
         """Calculated span stop frequency in MHZ
 		"""
         return self.m_fStartFrequencyMHZ + self.m_fStepFrequencyMHZ * self.FreqSpectrumSteps
-    
+
     @property
     def RFGenStartPowerLevel(self):
         """Get/Set amplitude sweep start value for Signal Generator Power Level (0-3)
@@ -488,15 +488,15 @@ class RFECommunicator(object):
         return self.m_nFreqSpectrumSteps
     @FreqSpectrumSteps.setter
     def FreqSpectrumSteps(self, value):
-        self.m_nFreqSpectrumSteps = value 
-    
+        self.m_nFreqSpectrumSteps = value
+
     @property
     def RefFrequencyMHZ(self):
         """Reference frequency used for sniffer decoder and other zero span functions
 		"""
-        return self.m_fRefFrequencyMHZ 
+        return self.m_fRefFrequencyMHZ
     @RefFrequencyMHZ.setter
-    def RefFrequencyMHZ(self, value):        
+    def RefFrequencyMHZ(self, value):
         self.m_fRefFrequencyMHZ = value
 
     #Signal generator configuration
@@ -517,7 +517,7 @@ class RFECommunicator(object):
     @RFGenCWFrequencyMHZ.setter
     def RFGenCWFrequencyMHZ(self, value):
         self.m_fRFGenCWFrequencyMHZ = value
-    
+
     @property
     def RFGenStepFrequencyMHZ(self):
         """Get/Set Signal Generator sweep step frequency in MHZ.
@@ -527,36 +527,36 @@ class RFECommunicator(object):
     def RFGenStepFrequencyMHZ(self, value):
         self.m_fRFGenStepFrequencyMHZ = value
 
-    @property    
+    @property
     def RFGenStopFrequencyMHZ(self):
         """ Get/Set Signal Generator sweep stop frequency in MHZ.
 		"""
         return self.m_fRFGenStopFrequencyMHZ
-    @RFGenStopFrequencyMHZ.setter    
+    @RFGenStopFrequencyMHZ.setter
     def RFGenStopFrequencyMHZ(self, value):
-        self.m_fRFGenStopFrequencyMHZ = value 
-    
+        self.m_fRFGenStopFrequencyMHZ = value
+
     @property
     def RFGenSweepSteps(self):
         """ Get/Set Signal Generator sweep steps with valid values in 2-9999.
 		"""
         return self.m_nRFGenSweepSteps
     @RFGenSweepSteps.setter
-    def RFGenSweepSteps(self, value): 
+    def RFGenSweepSteps(self, value):
         self.m_nRFGenSweepSteps = value
 
     @property
-    def RFGenStepWaitMS(self):  
+    def RFGenStepWaitMS(self):
         """ Get/Set Signal Generator sweep step wait delay in Milliseconds, with a limit of 65,535 max.
 		"""
-        return self.m_nRFGenStepWaitMS 
+        return self.m_nRFGenStepWaitMS
     @RFGenStepWaitMS.setter
-    def RFGenStepWaitMS(self, value):  
-        self.m_nRFGenStepWaitMS = value 
+    def RFGenStepWaitMS(self, value):
+        self.m_nRFGenStepWaitMS = value
 
     @property
     def RFGenHighPowerSwitch(self):
-        """ Get/Set Signal Generator High Power switch. 
+        """ Get/Set Signal Generator High Power switch.
         This is combined with RFGenHighPowerSwitch in order to define power level for a CW or Sweep command
 		"""
         return self.m_bRFGenHighPowerSwitch
@@ -566,12 +566,12 @@ class RFECommunicator(object):
 
     @property
     def RFGenPowerLevel(self):
-        """ Get/Set Signal Generator power level status (0-3). 
+        """ Get/Set Signal Generator power level status (0-3).
         This is combined with RFGenHighPowerSwitch in order to define power level for a CW or Sweep command
 		"""
         return self.m_nRFGenPowerLevel
     @RFGenPowerLevel.setter
-    def RFGenPowerLevel(self, value):      
+    def RFGenPowerLevel(self, value):
         self.m_nRFGenPowerLevel = value
 
     @property
@@ -597,7 +597,7 @@ class RFECommunicator(object):
     @RFGenStopHighPowerSwitch.setter
     def RFGenStopHighPowerSwitch(self, value):
         self.m_bRFGenStopHighPowerSwitch = value
-    
+
     @property
     def RFGenStopPowerLevel(self):
         """ Get/Set amplitude sweep stop value for Signal Generator Power Level (0-3)
@@ -618,18 +618,18 @@ class RFECommunicator(object):
         """True when the expansion board is active, false otherwise
 		"""
         return self.m_bExpansionBoardActive
-    
+
     @property
     def BaudRate(self):
         """Get/Set the baudrate for modulation modes such as Sniffer. Note it may be actual baudrate or sample rate depending on modulation type
 		"""
         return self.m_nBaudrate
     @BaudRate.setter
-    def BaudRate(self, value):    
+    def BaudRate(self, value):
         self.m_nBaudrate = value
-    
+
     @property
-    def Acknowledged(self):     
+    def Acknowledged(self):
         """Everytime we check the acknowledge, it reset itself to false
 		"""
         bTemp = self.m_bAcknowledge
@@ -637,45 +637,45 @@ class RFECommunicator(object):
         return bTemp
 
     @property
-    def ActiveModel(self):    
+    def ActiveModel(self):
         """The model active, regardless being main or expansion board
 		"""
         return self.m_eActiveModel
 
     @property
-    def AmplitudeOffsetDB(self): 
+    def AmplitudeOffsetDB(self):
         """Manual offset of the amplitude reading to compensate external adjustments
 		"""
         return self.m_fOffset_dB
     @AmplitudeOffsetDB.setter
-    def AmplitudeOffsetDB(self, value): 
+    def AmplitudeOffsetDB(self, value):
         self.m_fOffset_dB = value
 
     @property
-    def AutoConfigure(self): 
+    def AutoConfigure(self):
         """Auto configure is true by default and is used for the communicator to auto request config data to RFE upon port connection
 		"""
         return self.m_bAutoConfigure
     @AutoConfigure.setter
-    def AutoConfigure(self, value): 
+    def AutoConfigure(self, value):
         self.m_bAutoConfigure = value
 
     @property
-    def ExpansionBoardModel(self): 
+    def ExpansionBoardModel(self):
         """The RF model installed in the expansion board
 		"""
         return self.m_eExpansionBoardModel
 
     @property
-    def ExpansionSerialNumber(self): 
+    def ExpansionSerialNumber(self):
         """Serial number for the expansion board, if any.
-		"""    
+		"""
         if (not self.m_bPortConnected):
             self.m_sExpansionSerialNumber = ""
         return DecorateSerialNumberRAWString(self.m_sExpansionSerialNumber)
 
     @property
-    def HoldMode(self): 
+    def HoldMode(self):
         """Get or Set Hold mode state
 		"""
         return self.m_bHoldMode
@@ -691,7 +691,7 @@ class RFECommunicator(object):
 
     @property
     def Mode(self):
-        """Get the current operational mode 
+        """Get the current operational mode
 		"""
         return self.m_eMode
 
@@ -699,17 +699,17 @@ class RFECommunicator(object):
     def PortName(self):
         """String for name of COM Port
 		"""
-        return self.m_objSerialPort.port 
-        
+        return self.m_objSerialPort.port
+
     @property
     def RBW_KHZ(self):
         """RBW in KHZ currently in use, both in analyzer and sniffer
-		"""        
+		"""
         return self.m_fRBWKHZ
 
     @property
     def RFExplorerFirmwareDetected(self):
-        """Get detected firmware, otherwise "N/A" 
+        """Get detected firmware, otherwise "N/A"
 		"""
         if (not self.m_sRFExplorerFirmware):
             return "N/A"
@@ -719,7 +719,7 @@ class RFECommunicator(object):
     @property
     def SerialNumber(self):
         """Serial number for the device (main board)
-		"""    
+		"""
         if (not self.m_bPortConnected):
             self.m_sSerialNumber = ""
 
@@ -731,13 +731,13 @@ class RFECommunicator(object):
 		"""
         return self.m_bStoreSweep
     @StoreSweep.setter
-    def StoreSweep(self, value):      
+    def StoreSweep(self, value):
         self.m_bStoreSweep = value
-    
+
     @property
     def ThresholdDBM(self):
         """Threshold in dBm used for alarm, sniffer capture, etc
-		"""    
+		"""
         return self.m_fThresholdDBM
     @ThresholdDBM.setter
     def ThresholdDBM(self, value):
@@ -745,7 +745,7 @@ class RFECommunicator(object):
 
     @property
     def IsMWSUB3G(self):
-        """Property true if the WSUB3G connected is actually a MWSUB3G. This enables us to work with MWSUB3G same as WSUB3G except 
+        """Property true if the WSUB3G connected is actually a MWSUB3G. This enables us to work with MWSUB3G same as WSUB3G except
            in specific places where MWSUB3G code is required. Use this function anytime to know if a WSUB3G is actually a MWSUB3G
         """
         return ((self.m_eMainBoardModel == RFE_Common.eModel.MODEL_WSUB3G) and (self.m_eExpansionBoardModel == RFE_Common.eModel.MODEL_NONE))
@@ -763,26 +763,26 @@ class RFECommunicator(object):
         sReceivedString = ""
 
         if(self.m_bPortConnected):
-            try:     
-                nCount = 1   
+            try:
+                nCount = 1
                 while(bProcessAllEvents and nCount > 0):
                     bWrongFormat = False
                     objNew = None
                     try:
-                        self.m_hQueueLock.acquire() 
+                        self.m_hQueueLock.acquire()
                         nCount = self.m_objQueue.qsize()
-                        if (nCount == 0): 
+                        if (nCount == 0):
                             break
-                        objNew = self.m_objQueue.get_nowait()                       
+                        objNew = self.m_objQueue.get_nowait()
                     except Exception as obEx:
-                        if self.m_nVerboseLevel>0: 
+                        if self.m_nVerboseLevel>0:
                             print("m_arrReceivedStrings processing: " + str(obEx))
                     finally:
                         self.m_hQueueLock.release()
 
                     if (isinstance(objNew, RFEConfiguration)):
                         objConfiguration = objNew
-                        if self.m_nVerboseLevel>4: 
+                        if self.m_nVerboseLevel>4:
                             print("Received configuration: " + objConfiguration.LineString)
 
                         if (self.IsGenerator()):
@@ -856,11 +856,11 @@ class RFECommunicator(object):
                             self.m_eMode = objConfiguration.Mode
 
                             if (self.m_eMode != RFE_Common.eMode.MODE_SNIFFER):
-                                if ((math.fabs(self.StartFrequencyMHZ - objConfiguration.fStartMHZ) >= 0.001) or 
+                                if ((math.fabs(self.StartFrequencyMHZ - objConfiguration.fStartMHZ) >= 0.001) or
                                         (math.fabs(self.StepFrequencyMHZ - objConfiguration.fStepMHZ) >= 0.001)):
                                     self.StartFrequencyMHZ = objConfiguration.fStartMHZ
                                     self.StepFrequencyMHZ = objConfiguration.fStepMHZ
-                                    print("New Freq range - buffer cleared.")
+                                    # print("New Freq range - buffer cleared.")
                                 self.AmplitudeTopDBM = objConfiguration.fAmplitudeTopDBM
                                 self.AmplitudeBottomDBM = objConfiguration.fAmplitudeBottomDBM
                                 self.FreqSpectrumSteps = objConfiguration.nFreqSpectrumSteps
@@ -873,7 +873,7 @@ class RFECommunicator(object):
                             if (self.m_eActiveModel == RFE_Common.eModel.MODEL_WSUB3G):
                                 #If it is a MODEL_WSUB3G, make sure we use the MAX HOLD mode to account for proper DSP
                                 self.m_eCalculator = objConfiguration.eCalculator
-                                time.sleep(0.5) 
+                                time.sleep(0.5)
                                 if (self.m_bUseMaxHold):
                                     if (self.m_eCalculator != RFE_Common.eCalculator.MAX_HOLD):
                                         print("Updated remote mode to Max Hold for reliable DSP calculations with fast signals")
@@ -894,7 +894,7 @@ class RFECommunicator(object):
                                         (math.fabs(self.StepFrequencyMHZ - objConfiguration.fStepMHZ) >= 0.001)):
                                     self.StartFrequencyMHZ = objConfiguration.fStartMHZ
                                     self.StepFrequencyMHZ = objConfiguration.fStepMHZ
-                                    print("New Freq range - buffer cleared.")
+                                    # print("New Freq range - buffer cleared.")
                                 self.AmplitudeTopDBM = objConfiguration.fAmplitudeTopDBM
                                 self.AmplitudeBottomDBM = objConfiguration.fAmplitudeBottomDBM
                                 self.FreqSpectrumSteps = objConfiguration.nFreqSpectrumSteps
@@ -943,7 +943,7 @@ class RFECommunicator(object):
                                     self.m_bHoldMode = True
                                     print("RAM Buffer is full.")
                                 self.m_sSweepInfoText = "Captured:" + str(objSweep.CaptureTime) + " - Data points:" + str(objSweep.TotalSteps)
-                                objSpan = objSweep.CaptureTime - self.m_LastCaptureTime  
+                                objSpan = objSweep.CaptureTime - self.m_LastCaptureTime
                                 if (objSpan.seconds < 60):
                                     #if time between captures is less than 60
                                     #seconds, we can assume we are getting
@@ -968,7 +968,7 @@ class RFECommunicator(object):
                                 #if in hold mode, we just record last time came
                                 #here to make sure we start from most reliable
                                 #point in time
-                                self.m_LastCaptureTime = datetime.now()  
+                                self.m_LastCaptureTime = datetime.now()
                     #Nothing specific, so just consider individual cases
                     else:
                         sLine = str(objNew)
@@ -980,7 +980,7 @@ class RFECommunicator(object):
                             print("DSP mode: " + str(self.m_eDSP))
                         elif ((len(sLine) > 16) and (sLine[:3] == "#Sn")):
                             self.m_sSerialNumber = sLine[3:19]
-                            print("Device serial number: " + self.m_sSerialNumber)
+                            # print("Device serial number: " + self.m_sSerialNumber)
                         elif ((len(sLine) > 2) and ((sLine[:2] == "$q") or (sLine[:2] == "$Q"))):
                             #calibration data
                             nSourceStringSize = ord(sLine[2])
@@ -1010,7 +1010,7 @@ class RFECommunicator(object):
 
                                 if ((self.m_arrSpectrumAnalyzerEmbeddedCalibrationOffsetDB) or (len(self.m_arrSpectrumAnalyzerEmbeddedCalibrationOffsetDB) != (nStopPositionCalData - nStartPositionCalData))):
                                     self.m_arrSpectrumAnalyzerEmbeddedCalibrationOffsetDB = [0] * (nStopPositionCalData - nStartPositionCalData)
-                                    
+
                                 nAdjustSize = 3
                                 if (sLine[1] == 'Q'):
                                     nAdjustSize = 4 #this accounts for extra byte sent in $Q for size
@@ -1038,12 +1038,12 @@ class RFECommunicator(object):
                                 if (bAllZero):
                                     print("ERROR: the device internal calibration data is missing! contact support at www.rf-explorer.com/contact")
                         elif ((len(sLine) > 5) and sLine[:6] == "#C2-M:"):
-                            print("Received RF Explorer device model info:" + sLine)
+                            # print("Received RF Explorer device model info:" + sLine)
                             self.m_eMainBoardModel = RFE_Common.eModel(int(sLine[6:9]))
                             self.m_eExpansionBoardModel = RFE_Common.eModel(int(sLine[10:13]))
                             self.m_sRFExplorerFirmware = sLine[14:19]
                         elif ((len(sLine) > 5) and sLine[:6] == "#C3-M:"):
-                            print("Received RF Explorer Generator device info:" + sLine)
+                            # print("Received RF Explorer Generator device info:" + sLine)
                             self.m_eMainBoardModel = RFE_Common.eModel(int(sLine[6:9]))
                             self.m_eExpansionBoardModel = RFE_Common.eModel(int(sLine[10:13]))
                             self.m_sRFExplorerFirmware = sLine[14:19]
@@ -1062,7 +1062,8 @@ class RFECommunicator(object):
                         elif ((len(sLine) > 5) and (sLine[:6] == "#C1-F:")):
                             bWrongFormat = True     #obsolete firmware
                         else:
-                            print(sLine)  #report any line we don't understand - it is likely a human readable message
+                            pass
+                            # print(sLine)  #report any line we don't understand - it is likely a human readable message
                         if (bWrongFormat):
                             print("Received unexpected data from RFExplorer device:" + sLine)
                             print("Please update your RF Explorer to a recent firmware version and")
@@ -1075,13 +1076,13 @@ class RFECommunicator(object):
                 print("ProcessReceivedString: " + str(obEx))
 
         return bDraw, sReceivedString
-            
+
     def IsAnalyzerEmbeddedCal(self):
         """ As a function of expansion or mainboard being currently selected, returns true if there is internal
         calibration data available, or false if not.
         IMPORTANT: the calibration data is not returned immediately after connection and that may make think
-        the calibration is not available. 
-            
+        the calibration is not available.
+
         Returns:
             True if calibration is embedded, otherwise false
         """
@@ -1095,14 +1096,14 @@ class RFECommunicator(object):
         minimize spikes and spurs produced by unwanted signals
 		"""
         self.SendCommand("C+\x00")
-    
+
     def SendCommand_SetMaxHold(self):
         """Set RF Explorer SA device in Calculator:MaxHold, this is useful to capture fast transient signals even if the actual Windows application is representing other trace modes
 		"""
         self.SendCommand("C+\x04")
 
     def CalculateCenterFrequencyMHZ(self):
-        """Calculate Center Frequency in MHz 
+        """Calculate Center Frequency in MHz
 
         Returns:
             Float Center frequency in MHz
@@ -1110,7 +1111,7 @@ class RFECommunicator(object):
         return self.StartFrequencyMHZ + self.CalculateFrequencySpanMHZ() / 2.0
 
     def CalculateFrequencySpanMHZ(self):
-        """Calculate Step Frequency in MHz 
+        """Calculate Step Frequency in MHz
 
         Returns:
             Float Span frequency in MHz
@@ -1169,33 +1170,33 @@ class RFECommunicator(object):
             self.m_arrConnectedPorts = list(serial.tools.list_ports.comports())
             #print(str(len(self.m_arrConnectedPorts)))
             if(self.m_arrConnectedPorts):
-                print("Detected COM ports:")
-                for objPort in self.m_arrConnectedPorts:
-                    print("  * " + objPort.device)
+                # print("Detected COM ports:")
+                # for objPort in self.m_arrConnectedPorts:
+                    # print("  * " + objPort.device)
 
                 for objPort in self.m_arrConnectedPorts:
                     if(self.IsConnectedPort(objPort.device)):
                         self.m_arrValidCP2102Ports.append(objPort)
-                        print(objPort.device + " is a valid available port.")
+                        # print(objPort.device + " is a valid available port.")
                         sValidPorts += objPort.device + " "
-                
-                if(len(self.m_arrValidCP2102Ports) > 0):
-                    print("RF Explorer Valid Ports found: " + str(len(self.m_arrValidCP2102Ports)) + " - " + sValidPorts)
-                else:   
-                    print("Error: not found valid COM Ports") 
+
+                # if(len(self.m_arrValidCP2102Ports) > 0):
+                #     print("RF Explorer Valid Ports found: " + str(len(self.m_arrValidCP2102Ports)) + " - " + sValidPorts)
+                else:
+                    # print("Error: not found valid COM Ports")
                     bOk = False
-            else: 
+            else:
                 print("Serial ports not detected")
                 bOk = False
         except Exception as obEx:
             print("Error scanning COM ports: " + str(obEx))
-            bOk = False   
-        
+            bOk = False
+
         return bOk
 
     def IsConnectedPort(self, sPortName):
-        """True if it is possible connect to specific port, otherwise False 
-            
+        """True if it is possible connect to specific port, otherwise False
+
         Parameters:
             sPortName -- Serial port name, can take any form accepted by OS
         Returns:
@@ -1208,7 +1209,8 @@ class RFECommunicator(object):
             self.m_hSerialPortLock.acquire()
             self.m_objSerialPort.open()
         except Exception as obEx:
-            print("Error in RFCommunicator - IsConnectedPort()" + str(obEx))
+            pass
+            # print("Error in RFCommunicator - IsConnectedPort()" + str(obEx))
         finally:
             if(self.m_objSerialPort.is_open):
                 bOpen = True
@@ -1234,11 +1236,11 @@ class RFECommunicator(object):
                 sErrorText += sUserPort
             else:
                 sErrorText += "void"
-            print(sErrorText)
-            
+            # print(sErrorText)
+
         try:
             self.m_hSerialPortLock.acquire()
-            if(sUserPort):                              
+            if(sUserPort):
                 for sPort in self.m_arrValidCP2102Ports:
                     if(sUserPort == sPort.device):
                         sPortName = sUserPort
@@ -1253,15 +1255,15 @@ class RFECommunicator(object):
                 if(len(self.m_arrValidCP2102Ports) == 1):
                     sPortName = self.m_arrValidCP2102Ports[0].device
                     bConnected = True
-                    print("Automatically selected port" + sPortName +" - ttyAMA0 ignored")
-         
+                    # print("Automatically selected port" + sPortName +" - ttyAMA0 ignored")
+
             if(bConnected):
                 self.m_objSerialPort.baudrate = nBaudRate
                 self.m_objSerialPort.port = sPortName
-                self.m_objSerialPort.bytesize = serial.EIGHTBITS   
-                self.m_objSerialPort.stopbits= serial.STOPBITS_ONE 
-                self.m_objSerialPort.Parity = serial.PARITY_NONE   
-                self.m_objSerialPort.timeout = 100  
+                self.m_objSerialPort.bytesize = serial.EIGHTBITS
+                self.m_objSerialPort.stopbits= serial.STOPBITS_ONE
+                self.m_objSerialPort.Parity = serial.PARITY_NONE
+                self.m_objSerialPort.timeout = 100
 
                 self.m_objSerialPort.open()
 
@@ -1269,21 +1271,21 @@ class RFECommunicator(object):
                 self.m_LastCaptureTime = datetime.now()
                 self.m_bHoldMode = False
 
-                print("Connected: " + str(self.m_objSerialPort.port) + ", " + str(self.m_objSerialPort.baudrate) + " bauds")
+                # print("Connected: " + str(self.m_objSerialPort.port) + ", " + str(self.m_objSerialPort.baudrate) + " bauds")
 
                 time.sleep(0.5)
                 if (self.m_bAutoConfigure):
                     self.SendCommand_RequestConfigData()
                     time.sleep(0.5)
-            else:             
+            else:
                 print("Error: select a different COM port")
 
         except Exception as obEx:
             print("ERROR ConnectPort: " + str(obEx))
         finally:
             self.m_hSerialPortLock.release()
-        return self.m_objSerialPort.is_open   
-        
+        return self.m_objSerialPort.is_open
+
     def ClosePort(self):
         """ Close port and initialize some settings
 
@@ -1317,14 +1319,14 @@ class RFECommunicator(object):
                 self.SendCommand_DisableScreenDump()
 
                 #Close the port
-                print("Disconnected.")
+                # print("Disconnected.")
                 self.m_objSerialPort.close()
 
                 self.m_bPortConnected = False #do this here so the external event has the right port status
 
         except Exception:
             pass
-        finally: 
+        finally:
             self.m_hSerialPortLock.release()
 
         self.m_bPortConnected = False  #to be double safe in case of exception
@@ -1340,7 +1342,7 @@ class RFECommunicator(object):
         self.m_arrSpectrumAnalyzerExpansionCalibrationOffsetDB = None
 
         return (not self.m_objSerialPort.is_open)
-    
+
     def UpdateDeviceConfig(self, fStartMHZ, fEndMHZ, fTopDBM=0, fBottomDBM=-120, fRBW_KHZ=0.0):
         """Send a new configuration to the connected device
 
@@ -1349,7 +1351,7 @@ class RFECommunicator(object):
             fEndMHZ    -- New stop frequency, in MHZ, must be in valid range for the device
             fTopDBM    -- Optional, only impact visual not real data
             fBottomDBM -- Optional, only impact visual not real data
-            fRBW_KHZ   -- Reserved future firmware support 
+            fRBW_KHZ   -- Reserved future firmware support
 		"""
         if (self.m_bPortConnected):
             # #[32]C2-F:Sssssss,Eeeeeee,tttt,bbbb
@@ -1420,13 +1422,13 @@ class RFECommunicator(object):
         """Disable LCD and backlight on device screen
 		"""
         self.SendCommand("L0")
-    
+
     def SendCommand_GeneratorCW(self):
         """Start CW generation using current configuration setting values - only valid for Signal Generator models
 		"""
         if (self.IsGenerator()):
-            self.SendCommand("C3-F:" + "{:07d}".format(int(self.RFGenCWFrequencyMHZ * 1000)) + self.GetRFGenPowerString())   
-    
+            self.SendCommand("C3-F:" + "{:07d}".format(int(self.RFGenCWFrequencyMHZ * 1000)) + self.GetRFGenPowerString())
+
     def SendCommand_GeneratorSweepAmplitude(self):
         """Start Sweep Amplitude generation using current configuration setting values - only valid for Signal Generator models
 		"""
@@ -1473,15 +1475,15 @@ class RFECommunicator(object):
                 "{:07d}".format(int(dStepMHZ * 1000))+ "," + "{:07d}".format(self.RFGenStepWaitMS)
 
             self.SendCommand(sCommand)
-        
+
     def RFGenTrackStepMHZ(self):
         """Configured tracking step size in MHZ
 
-        Returns: 
+        Returns:
             Float Tracking step size in MHz
 		"""
         return (self.RFGenStopFrequencyMHZ - self.RFGenStartFrequencyMHZ) / self.RFGenSweepSteps
-    
+
     def SendCommand_SweepDataPoints(self, nDataPoints):
         """Define RF Explorer SA sweep data points
 
@@ -1492,15 +1494,15 @@ class RFECommunicator(object):
 
     def SendCommand(self, sCommand):
         """Format and send command - for instance to reboot just use "r", the '#' decorator and byte length char will be included within
-         
-        Parameters: www.rf-explorer.com/API 
+
+        Parameters: www.rf-explorer.com/API
             sCommand -- Unformatted command from http://www.rf-explorer.com/API
 		"""
         sCompleteCommand = "#" + chr(len(sCommand) + 2) + sCommand
         self.m_objSerialPort.write(sCompleteCommand.encode('ascii'))
         if self.m_nVerboseLevel>5:
             print("RFE Command: #(" + str(len(sCompleteCommand)) + ")" + sCommand + " [" + " ".join("{:02X}".format(ord(c)) for c in sCompleteCommand) + "]")
-    
+
     def ResetInternalBuffers(self):
         """Use this function to internally re-initialize the MaxHold buffers used for cache data inside the RF Explorer device
 		"""
@@ -1513,7 +1515,7 @@ class RFECommunicator(object):
         self.m_ReceivedBytesMutex.WaitOne()
         self.m_sDebugAllReceivedBytes=""
         self.m_ReceivedBytesMutex.ReleaseMutex()
-   
+
     def Dispose(self, bDisposing):
         """Local dispose method
 
@@ -1541,7 +1543,7 @@ class RFECommunicator(object):
             time.sleep(1)
             self.m_objThread = None
         self.ClosePort()
-    
+
     def GetSignalGeneratorEstimatedAmplitude(self, dFrequencyMHZ):
         """Returns best matching amplitude value
 
@@ -1553,7 +1555,7 @@ class RFECommunicator(object):
         return self.m_RFGenCal.GetEstimatedAmplitude(dFrequencyMHZ, self.m_bRFGenHighPowerSwitch, self.m_nRFGenPowerLevel)
 
     def GetRFGenPowerString(self):
-        """Get a string with the power level 
+        """Get a string with the power level
 
         Returns:
             String Power level
@@ -1569,37 +1571,37 @@ class RFECommunicator(object):
 
     def GetRFE6GENCal(self):
         """Get RFE6Gen calibration data
-        
+
         Returns:
             RFE6GEN_CalibrationData Calibration data object
 		"""
         return self.m_RFGenCal
-    
+
     def GetAmplitudeCorrectionDB(self, nMHz):
         """Returns the current correction amplitude value for a given MHZ frequency
-        
+
         Parameters:
             nMHz -- Frequency reference in MHZ to get correction data from
         Returns:
             Float Amplitude correction data in dB
         """
         return self.m_FileAmplitudeCalibration.GetAmplitudeCalibration(nMHz)
-        
+
     @classmethod
     def ResetIOT_HW(cls, bMode):
         """Set Raspberry pi GPIO pins and reset RF Explorer device
 
-        Parameters: 
+        Parameters:
             bMode -- True if the baudrate is set to 500000bps, False to 2400bps
         """
         try:
             import RPi.GPIO as GPIO
-       
+
             #print("RPi info: " + str(GPIO.RPI_INFO)) #information about your RPi:
             #print("RPi.GPio version: " + GPIO.VERSION) #version of RPi.GPIO:
             GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BOARD)    #refer to the pin numbers on the P1 header of the Raspberry Pi board
-            GPIO.setup(12, GPIO.OUT)    #set /reset (pin 12) to output 
+            GPIO.setup(12, GPIO.OUT)    #set /reset (pin 12) to output
             GPIO.output(12, False)      #set /reset (pin 12) to LOW
             GPIO.setup(21, GPIO.OUT)    #set GPIO2 (pin 21) to output
             GPIO.output(21, bMode)      #set GPIO2 (pin 21) to HIGH (for 500Kbps)
@@ -1607,8 +1609,8 @@ class RFECommunicator(object):
             GPIO.output(12, True)       #set /reset to HIGH
             time.sleep(2.5)             #wait 2.5sec
             GPIO.setup(21, GPIO.IN)     #set GPIO2 to input
-            GPIO.cleanup()              #clean up GPIO channels 
+            GPIO.cleanup()              #clean up GPIO channels
 
         except RuntimeError:
             print("Error importing RPi.GPIO!  This is probably because you need superuser privileges.  You can achieve this by using 'sudo' to run your script")
- 
+
