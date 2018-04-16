@@ -876,7 +876,7 @@ class RFECommunicator(object):
                                 time.sleep(0.5)
                                 if (self.m_bUseMaxHold):
                                     if (self.m_eCalculator != RFE_Common.eCalculator.MAX_HOLD):
-                                        print("Updated remote mode to Max Hold for reliable DSP calculations with fast signals")
+                                        #print("Updated remote mode to Max Hold for reliable DSP calculations with fast signals")
                                         self.SendCommand_SetMaxHold()
                                 else:
                                     if (self.m_eCalculator == RFE_Common.eCalculator.MAX_HOLD):
@@ -904,7 +904,7 @@ class RFECommunicator(object):
                                     time.sleep(0.5)
                                     if (self.m_bUseMaxHold):
                                         if (self.m_eCalculator != RFE_Common.eCalculator.MAX_HOLD):
-                                            print("Updated remote mode to Max Hold for reliable DSP calculations with fast signals")
+                                            #print("Updated remote mode to Max Hold for reliable DSP calculations with fast signals")
                                             self.SendCommand_SetMaxHold()
                                     else:
                                         if (self.m_eCalculator == RFE_Common.eCalculator.MAX_HOLD):
