@@ -1242,10 +1242,8 @@ class RFECommunicator(object):
         try:
             self.m_hSerialPortLock.acquire()
             if(sUserPort):
-                for sPort in self.m_arrValidCP2102Ports:
-                    if(sUserPort == sPort.device):
-                        sPortName = sUserPort
-                        bConnected = True
+                sPortName = sUserPort
+                bConnected = True
             elif (len(self.m_arrValidCP2102Ports) == 1):
                 sPortName = self.m_arrValidCP2102Ports[0].device
                 bConnected = True
